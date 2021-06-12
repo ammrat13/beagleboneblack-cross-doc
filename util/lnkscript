@@ -16,14 +16,11 @@ SECTIONS {
 
 
     /* Program text */
-    .text : ALIGN(0x4) {
-        *(.text*)
-    }
+    .text : ALIGN(0x4) { *(.text*) } >sram
 
     /* Initialized data */
-    .data : ALIGN(0x4) {
-        *(.data*)
-    }
+    .rodata : ALIGN(0x4) { *(.rodata*) } >sram
+    .data   : ALIGN(0x4) { *(.data*)   } >sram
 
 
     /* Symbol and string tables to copy over to the output ELF */

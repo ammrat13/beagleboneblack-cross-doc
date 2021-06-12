@@ -1,6 +1,6 @@
 MLO_OFILES := \
-	src/start.o \
-	src/main.o
+	src/start.o src/main.o \
+	src/cm.o
 INCLUDE := -Iinclude/
 
 AS := clang

@@ -1,0 +1,5 @@
+# Ignore compile output
+**/*.o
+**/*.elf
+**/*.hex
+**/MLO

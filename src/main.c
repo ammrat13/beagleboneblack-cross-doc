@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "cm.h"
+#include "pwr/cm.h"
 
 
 const uintptr_t GPIO1_BASE            = 0x4804C000;
@@ -14,7 +14,7 @@ int main(void) {
 
     // Set up the GPIO1 clock
     // It's off on reset
-    *CM_PER_GPIO1_CLKCTRL_PTR = (1<<18) | (2);
+    CM_REG(PER, GPIO1_CLKCTRL) = (1<<18) | (2);
 
     // Enable output on GPIO1 pin 21
     *((volatile uint32_t*) (GPIO1_BASE + GPIO_OE_OFF)) &= ~(1<<21);

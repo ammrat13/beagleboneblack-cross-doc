@@ -57,6 +57,8 @@ extern const uintptr_t GPIO_BASE[NUM_GPIO];
 void gpio_enable(gpio_t num);
 // Ensure that a GPIO module is no longer running
 void gpio_disable(gpio_t num);
+// Reset and start a GPIO module
+void gpio_reset(gpio_t num);
 
 // Set the `mask`ed pins to input
 void gpio_make_input(gpio_t num, uint32_t mask);

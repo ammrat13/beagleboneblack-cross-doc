@@ -12,14 +12,36 @@ const uintptr_t GPIO_BASE[NUM_GPIO] = {
 
 
 void gpio_enable(gpio_t num) {
-    // Turn on the required and optional clock, then wait for fully functional
+    // Turn on the required clock, then wait for fully functional
+    // See TRM 8.1.12.2.3
+    *CM_GPIO_CLKCTRL[num] = (0x2 << 0);
+    while((*CM_GPIO_CLKCTRL[num] >> 16 & 0x3) != 0x0);
+
+    // Enable the module clocks
+    // See TRM 25.4.1.15
+    GPIO_REG(num, CTRL) = (0x0 << 0);
+}
+
+void gpio_disable(gpio_t num) {
+    // Disable the module clocks completely
+    // See TRM 25.4.1.15
+    GPIO_REG(num, CTRL) = (0x1 << 0);
+
+    // Disable the clocks completely and wait
+    // See TRM 8.1.12.2.3
+    *CM_GPIO_CLKCTRL[num] = (0x0 << 0);
+    while((*CM_GPIO_CLKCTRL[num] >> 16 & 0x3) != 0x3);
+}
+
+void gpio_reset(gpio_t num) {
+    // Enable the module first
+    gpio_enable(num);
+
+    // Turn on the required and debounce clock, then wait for fully functional
+    // We need the debounce clock for reset
     // See TRM 8.1.12.2.3
     *CM_GPIO_CLKCTRL[num] = (0x1 << 18) | (0x2 << 0);
     while((*CM_GPIO_CLKCTRL[num] >> 16 & 0x3) != 0x0);
-
-    // Enable the module
-    // See TRM 25.4.1.15
-    GPIO_REG(num, CTRL) = (0x0 << 0);
 
     // Reset the module and wait for completion
     // See TRM 25.4.1.2, TRM 25.4.1.14
@@ -29,23 +51,12 @@ void gpio_enable(gpio_t num) {
     // Disable the debounce clock since we only needed it for reset
     // Again, wait for fully functional
     // See TRM 8.1.12.2.3
-    *CM_GPIO_CLKCTRL[num] &= ~(0x1 << 18);
+    *CM_GPIO_CLKCTRL[num] = (0x2 << 0);
     while((*CM_GPIO_CLKCTRL[num] >> 16 & 0x3) != 0x0);
 
-    // Enable the module and turn on idling
+    // Enable smart- and auto-idling
     // See TRM 25.4.1.2
     GPIO_REG(num, SYSCONFIG) = (0x2 << 3) | (0x1 << 0);
-}
-
-void gpio_disable(gpio_t num) {
-    // Disable the module completely
-    // See TRM 25.4.1.15
-    GPIO_REG(num, CTRL) = (0x1 << 0);
-
-    // Disable the clocks completely and wait
-    // See TRM 8.1.12.2.3
-    *CM_GPIO_CLKCTRL[num] = (0x0 << 18) | (0x0 << 0);
-    while((*CM_GPIO_CLKCTRL[num] >> 16 & 0x3) != 0x3);
 }
 
 

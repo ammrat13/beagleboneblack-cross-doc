@@ -3,6 +3,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "io/gpio.h"
+
 
 // Gets a register inside a clock domain
 //
@@ -26,3 +28,5 @@
 #define CM_PER_GPIO1_CLKCTRL_OFF  (0x0ac)
 #define CM_PER_GPIO2_CLKCTRL_OFF  (0x0b0)
 #define CM_PER_GPIO3_CLKCTRL_OFF  (0x0b4)
+// An array containing the addresses of the clock control registers for GPIO
+extern volatile uint32_t *const CM_GPIO_CLKCTRL[NUM_GPIO];

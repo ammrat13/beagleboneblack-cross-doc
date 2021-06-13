@@ -1,6 +1,6 @@
 MLO_OFILES := \
 	src/start.o src/main.o \
-	src/io/gpio.o
+	src/pwr/cm.o src/io/gpio.o
 INCLUDE := -Iinclude/
 
 AS := clang

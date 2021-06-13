@@ -34,6 +34,8 @@
 #define GPIO_SYSSTATUS_OFF (0x114)
 #define GPIO_CTRL_OFF      (0x130)
 #define GPIO_OE_OFF (0x134)
+#define GPIO_DATAIN_OFF  (0x138)
+#define GPIO_DATAOUT_OFF (0x13c)
 #define GPIO_SETDATAOUT_OFF   (0x194)
 #define GPIO_CLEARDATAOUT_OFF (0x190)
 
@@ -56,8 +58,11 @@ void gpio_enable(gpio_t num);
 // Ensure that a GPIO module is no longer running
 void gpio_disable(gpio_t num);
 
-// Set the output enable `mask` of a module
-void gpio_oe_set(gpio_t num, uint32_t mask);
+// Set the `mask`ed pins to input
+void gpio_make_input(gpio_t num, uint32_t mask);
+// Set the `mask`ed pins to output
+void gpio_make_output(gpio_t num, uint32_t mask);
+
 // Turn on the `mask`ed bits
 void gpio_set(gpio_t num, uint32_t mask);
 // Turn off the `mask`ed bits

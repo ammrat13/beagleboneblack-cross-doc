@@ -12,7 +12,7 @@ ASFLAGS := \
 	-v -Wall -Werror \
 	--target=armv7a-none-none-eabi -mcpu=cortex-a8
 CFLAGS := \
-	-v -O2 -Wall -Werror \
+	-v -Os -Wall -Werror \
 	--target=armv7a-none-none-eabi -mcpu=cortex-a8 \
 	-ffreestanding -nostdlib \
 	-ffunction-sections -fdata-sections

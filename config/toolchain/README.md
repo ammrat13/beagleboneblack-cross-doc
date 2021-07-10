@@ -40,8 +40,8 @@ The general flow for making the cross-toolchain is to:
 5. Install uClibc-ng again. This step probably isn't needed. It's just to have a
    C library compiled with the final toochain for the target.
 
-The commands to build BinUtils and GCC are in their configuration files, as for
-the other packages:
+The commands to build and install BinUtils and GCC are in their configuration
+files. As for the other packages:
 
 ### To Install Linux Kernel Headers
 
@@ -50,7 +50,7 @@ In the source directory for the Linux kernel to be used, run
 $ make ARCH=arm INSTALL_HDR_PATH=${PREFIX} headers_install
 ```
 
-### To Build uClibc-ng
+### To Install uClibc-ng
 
 Place the configuration file as `.config` in the source directory. To configure,
 build, then install, run

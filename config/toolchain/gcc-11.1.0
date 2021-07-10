@@ -1,0 +1,10 @@
+#!/bin/sh
+
+../configure \
+    --prefix=${PREFIX} --with-sysroot=${PREFIX} \
+    --target=${TARGET} --program-prefix=${TARGET}- \
+    --with-native-system-header-dir=/include \
+    --enable-languages=c,c++ --disable-multilib --disable-nls
+
+make -j$(nproc) all-gcc all-target-libgcc all-target-libstdc++-v3
+make -j$(nproc) install-gcc install-target-libgcc install-target-libstdc++-v3

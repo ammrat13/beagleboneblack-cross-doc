@@ -1,0 +1,10 @@
+#!/bin/sh
+
+../configure \
+    --prefix=${PREFIX} --without-headers \
+    --target=${TARGET} --program-prefix=${TARGET}- \
+    --enable-languages=c --disable-multilib --disable-nls \
+    --disable-shared --disable-threads
+
+make -j$(nproc) all-gcc all-target-libgcc
+make install-gcc install-target-libgcc

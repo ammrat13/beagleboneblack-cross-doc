@@ -11,12 +11,31 @@ SECTIONS {
 
     /* Make sure to keep the entry point at the very start */
     .text.bootstrap : ALIGN(0x4) {
-        KEEP( start.o(.text.bootstrap) )
+        KEEP( *start.o(.text.bootstrap) )
     } >sram
 
 
     /* Program text */
-    .text : ALIGN(0x4) { *(.text*) } >sram
+    /* Also include "glue" code generated for interworking */
+    .text : ALIGN(0x4) {
+        *(.text*)
+        . = ALIGN(0x4);
+
+        *(.glue_7)
+        . = ALIGN(0x4);
+        *(.glue_7t)
+        . = ALIGN(0x4);
+        *(.v4_bx)
+        . = ALIGN(0x4);
+        *(.vfp11_veneer)
+    } >sram
+
+
+    /* Support GCC's indirect functions */
+    /* See: https://sourceware.org/glibc/wiki/GNU_IFUNC */
+    .iplt     : ALIGN(0x4) { *(.iplt)     } >sram
+    .rel.iplt : ALIGN(0x4) { *(.rel.iplt) } >sram
+    .igot.plt : ALIGN(0x4) { *(.igot.plt) } >sram
 
     /* Initialized data */
     .rodata : ALIGN(0x4) { *(.rodata*) } >sram
@@ -30,11 +49,7 @@ SECTIONS {
     .strtab   : { *(.strtab)   }
 
     /* Same thing for debugging */
-    .comment         : { *(.comment)       }
+    .comment        : { *(.comment*)       }
+    .note           : { *(.note*)          }
     .ARM.attributes : { *(.ARM.attributes) }
-
-
-    /DISCARD/ : {
-        *(.ARM.exidx)
-    }
 }

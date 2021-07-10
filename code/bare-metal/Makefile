@@ -3,22 +3,20 @@ MLO_OFILES := \
 	src/pwr/cm.o src/io/gpio.o
 INCLUDE := -Iinclude/
 
-AS := clang
-CC := clang
-LD := clang
-OBJCOPY := llvm-objcopy
+TARGET ?= arm-linux-uclibcgnueabi
+AS := $(TARGET)-as
+CC := $(TARGET)-gcc
+LD := $(TARGET)-gcc
+OBJCOPY := $(TARGET)-objcopy
 
 ASFLAGS := \
-	-v -Wall -Werror \
-	--target=armv7a-none-none-eabi -mcpu=cortex-a8
+	-v -mcpu=cortex-a8
 CFLAGS := \
-	-v -Os -Wall -Werror \
-	--target=armv7a-none-none-eabi -mcpu=cortex-a8 \
+	-v -Os -mcpu=cortex-a8 -Wall -Werror \
 	-ffreestanding -nostdlib \
 	-ffunction-sections -fdata-sections
 LDFLAGS := \
-	-v \
-	--target=armv7a-none-none-eabi -mcpu=cortex-a8 \
+	-v -mcpu=cortex-a8 \
 	-ffreestanding -nostdlib \
 	-Tutil/lnkscript -Wl,--orphan-handling=error,-gc-sections
 OBJCOPYFLAGS := \

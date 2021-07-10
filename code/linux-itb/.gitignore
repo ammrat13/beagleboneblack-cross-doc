@@ -1,0 +1,6 @@
+# Ignore source files
+**/zImage*
+**/*.dtb
+
+# Ignore output
+**/*.itb

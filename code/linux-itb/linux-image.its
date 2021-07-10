@@ -1,0 +1,43 @@
+/dts-v1/;
+
+/ {
+    description = "Linux 4.14.108 FIT Image for U-Boot";
+    #address-cells = <1>;
+
+
+    images {
+
+        kernel-linux-4.14.108 {
+            description = "Linux-4.14.108";
+            data = /incbin/("zImage-4.14.108");
+
+            type = "kernel";
+            arch = "arm";
+            os = "linux";
+            compression = "none";
+
+            load = <0x80000000>;
+            entry = <0x80000000>;
+        };
+
+        fdt-am335x-boneblack {
+            description = "AM335x BoneBlack DTB";
+            data = /incbin/("am335x-boneblack.dtb");
+
+            type = "flat_dt";
+            arch = "arm";
+            compression = "none";
+        };
+    };
+
+
+    configurations {
+        default = "default";
+
+        default {
+            description = "Default configuration";
+            kernel = "kernel-linux-4.14.108";
+            fdt = "fdt-am335x-boneblack";
+        };
+    };
+};

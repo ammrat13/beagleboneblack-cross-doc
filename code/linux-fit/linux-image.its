@@ -1,3 +1,11 @@
+/*
+    Generate the ITB file with
+    $ mkimage -f linux-image.its linux-image.itb
+
+    Ensure that the zImage and DTB files are in this directory when compiling.
+*/
+
+
 /dts-v1/;
 
 / {

@@ -1,0 +1,2 @@
+# Ignore the compiled U-Boot environment
+**/u-boot.env

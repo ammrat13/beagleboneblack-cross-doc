@@ -7,4 +7,4 @@
     --enable-languages=c,c++ --disable-multilib --disable-nls
 
 make -j$(nproc) all-gcc all-target-libgcc all-target-libstdc++-v3
-make -j$(nproc) install-gcc install-target-libgcc install-target-libstdc++-v3
+make install-gcc install-target-libgcc install-target-libstdc++-v3

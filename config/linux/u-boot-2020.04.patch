@@ -1,0 +1,13 @@
+diff --git a/include/configs/am335x_evm.h b/include/configs/am335x_evm.h
+index 5af90d932d..aa80513b07 100644
+--- a/include/configs/am335x_evm.h
++++ b/include/configs/am335x_evm.h
+@@ -23,7 +23,7 @@
+ # define CONFIG_TIMESTAMP
+ #endif
+ 
+-#define CONFIG_SYS_BOOTM_LEN		SZ_16M
++#define CONFIG_SYS_BOOTM_LEN		SZ_32M
+ 
+ #define CONFIG_MACH_TYPE		MACH_TYPE_AM335XEVM
+ 

@@ -7,9 +7,9 @@
 
     images {
 
-        kernel-linux-4.14.108 {
+        kernel-linux-4.14.108-ti-r143 {
             description = "Linux-4.14.108";
-            data = /incbin/("zImage-4.14.108");
+            data = /incbin/("zImage-4.14.108-ti-r143");
 
             type = "kernel";
             arch = "arm";
@@ -36,7 +36,7 @@
 
         default {
             description = "Default configuration";
-            kernel = "kernel-linux-4.14.108";
+            kernel = "kernel-linux-4.14.108-ti-r143";
             fdt = "fdt-am335x-boneblack";
         };
     };

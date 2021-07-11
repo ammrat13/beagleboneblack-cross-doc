@@ -1,0 +1,2 @@
+# Ignore configuration files when computing language statistics
+config/** linguist-vendored

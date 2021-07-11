@@ -53,7 +53,7 @@ Furthermore, it expects the compiler from the toolchain to be in the `PATH`.
 ### U-Boot
 
 Move the configuration file for U-Boot into the source directory as `.config`.
-Apply the patch with `path -i u-boot-2020.07.patch`. Configure and build with
+Apply the patch with `patch -i u-boot-2020.07.patch`. Configure and build with
 ```
 $ make CROSS_COMPILE=${TARGET}- menuconfig
 $ make CROSS_COMPILE=${TARGET}- -j$(nproc)

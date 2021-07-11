@@ -33,14 +33,20 @@ $ make CROSS_COMPILE=${TARGET}- -j$(nproc)
 ```
 
 If you symlinked `/sbin/`, `/usr/bin/`, and `/usr/sbin/` to `/bin/`, then edit
-the links BusyBox will create with
+the links BusyBox will create. First install to a temporary directory, then edit
+the links as
 ```
+$ make CROSS_COMPILE=${TARGET}- install
 $ sed -E -e 's@^(/sbin|/usr/bin|/usr/sbin)@/bin@' -i busybox.links
 ```
 
 Finally, install to the root filesystem (using `sudo` as needed) with
 ```
 $ make CROSS_COMPILE=${TARGET}- CONFIG_PREFIX=${ROOT_MNT} install
+```
+Also make BusyBox SetUID with
+```
+$ sudo chmod u+s ${ROOT_MNT}/bin/busybox
 ```
 
 ## Configuration Options
@@ -51,6 +57,14 @@ The base for the configuration was `defconfig`. The following changes were made:
       this, so we don't use it here. If you want to use it, set "General Library
       Settings" > "utmpx based support for tracking login/logouts to/from the
       system" to "y" in uClibc-ng.
+* "Login/Password Management Utilities":
+    * "Use internal password and group functions rather than system functions"
+      to "n". We compiled these functions in uClibc-ng.
+    * "Use internal crypt functions" to "n". We compiled these functions in
+      uClibc-ng. Ensure that if you're using SHA256 or SHA512 that those options
+      were selected under "Advanced Library Settings" > "libcrypt SHA(256|512)
+      support".
+    * "Default encryption method" to "sha512"
 * "Networking Utilities":
     * "Enable IPv6 support" to "n". uClibc-ng was compiled without IPv6, so we
       don't use it here. If you want to use it, set "Networking Support" > "IP

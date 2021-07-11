@@ -103,4 +103,4 @@ where all it can do is boot from MMC.
 
 The base for the configuration was `bb.org_defconfig` provided with the
 [official BeagleBoard kernel](https://github.com/beagleboard/linux). No changes
-have been made so far.
+have been made.

@@ -59,3 +59,84 @@ $ make CROSS_COMPILE=${TARGET}- menuconfig
 $ make CROSS_COMPILE=${TARGET}- -j$(nproc)
 $ make CROSS_COMPILE=${TARGET}- PREFIX=${PREFIX} install
 ```
+
+
+## Post-Build
+
+The installed dynamic libraries might need to be moved to `/lib/` on the
+target's root filesystem. Copy over:
+* `${PREFIX}/lib/`
+    * `ld-uClibc-1.0.38.so`
+    * `ld-uClibc.so.0`
+    * `ld-uClibc.so.1`
+    * `libuClibc-1.0.38.so`
+    * `libc.so.0`
+    * `libc.so.1`
+* `${PREFIX}/${TARGET}/lib/`
+    * `libgcc_s.so.1`
+    * `libstdc++.so.6.0.29`
+    * `libstdc++.so.6`
+    * `libstdc++.so`
+
+Some of these files are symlinks, so be sure to use `-P` with `cp`.
+
+
+## Configuration Options
+
+### BinUtils and GCC
+
+The two packages have many options in common:
+* `--prefix`: The root of the install tree
+* `--program-prefix`: What to prepend to the installed programs
+* `--with-sysroot`: Where to look for target headers and libraries
+* `--target`: The platform the built programs should compile to
+* `--disable-multilib`: Don't build for different calling conventions or
+  variants
+* `--disable-nls`: Don't build translations
+
+GCC has some additional options:
+* `--enable-languages`: What frontends to build
+* `--disable-shared`: Don't build shared versions of the libraries built
+* `--disable-threads`: Don't use multithreading
+* `--with-native-system-header-dir`: Where to look for the target headers under
+  the `sysroot` - default is `/usr/include/`
+
+We don't build the entirety of GCC, only some parts:
+* `gcc`: The compiler itself
+* `target-libgcc`: A required support library for GCC - see
+  [osdev.org](https://wiki.osdev.org/Libgcc#:~:text=The%20GNU%20Compiler%20Collection%20uses,helper%20routines%20and%20runtime%20support.)
+* `target-libstdc++-v3`: The C++ standard library
+
+### uClibc-ng
+
+The base for the configuration was `defconfig`. The following changes were made:
+* "Target Architecture" to "arm"
+* "Target Architecture Features and Options":
+    * "Build for EABI" to "y". This way, we're using the EABI calling convention
+      instead of the OABI convention. This is what we configured GCC to do by
+      setting the target with `uclibcgnueabi` instead of `uclibc`.
+    * "Target Processor Endianness" to "Little Endian"
+    * "Enable full C99 math library support" to "y". Do this so we get a `libm`.
+    * "Enable XSI math extensions to the ISO C standard (bessel)" to "y"
+    * "Linux kernel header location" to "${PREFIX}/include/". Environment
+      variables are supported for this, so we'll take advantage of that.
+* "General Library Settings":
+    * "Enable library loader LD_PRELOAD environment" to "n". I'd rather use a
+      file than an environment variable.
+    * "Enable library loader preload file (ld.so.preload)" to "y". I'd rather
+      use a file than an environment variable.
+    * "Use executables RUNPATH/RPATH when searching for libraries." to "y"
+    * "Enable GNU hash style support" to "y"
+    * "Thread support" to "Linuxthreads". Even though this is a single-core
+      processor, it would be nice to have a threading library.
+* "Advanced Library Settings":
+    * "libcrypt SHA256 support" to "y"
+    * "libcrypt SHA512 support" to "y"
+* "Networking Support":
+    * "DNS resolver functions" to "y". This is needed for `nslookup` in BusyBox
+      if we elect not to use its internal resolver functions.
+* "Library Installation Options":
+    * "uClibc runtime library directory" to "/". We want to install directly in
+      the sysroot.
+    * "uClibc development environment directory" to "/". We want to install
+      directly in the sysroot.

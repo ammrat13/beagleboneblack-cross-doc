@@ -1,5 +1,3 @@
-diff --git include/configs/am335x_evm.h include/configs/am335x_evm.h
-index 5af90d932d..aa80513b07 100644
 --- include/configs/am335x_evm.h
 +++ include/configs/am335x_evm.h
 @@ -23,7 +23,7 @@

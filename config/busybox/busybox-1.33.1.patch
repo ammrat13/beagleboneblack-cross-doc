@@ -1,0 +1,39 @@
+--- coreutils/mktemp.c	2021-01-01 05:52:27.000000000 -0500
++++ coreutils/mktemp.c	2021-07-10 22:43:50.884305583 -0400
+@@ -48,7 +48,6 @@
+ //usage:     "\n	-q	Fail silently on errors"
+ //usage:     "\n	-t	Prepend base directory name to TEMPLATE"
+ //usage:     "\n	-p DIR	Use DIR as a base directory (implies -t)"
+-//usage:     "\n	-u	Do not create anything; print a name"
+ //usage:     "\n"
+ //usage:     "\nBase directory is: -p DIR, else $TMPDIR, else /tmp"
+ //usage:
+@@ -71,14 +70,13 @@
+ 		OPT_q = 1 << 1,
+ 		OPT_t = 1 << 2,
+ 		OPT_p = 1 << 3,
+-		OPT_u = 1 << 4,
+ 	};
+
+ 	path = getenv("TMPDIR");
+ 	if (!path || path[0] == '\0')
+ 		path = "/tmp";
+
+-	opts = getopt32(argv, "^" "dqtp:u" "\0" "?1"/*1 arg max*/, &path);
++	opts = getopt32(argv, "^" "dqtp:" "\0" "?1"/*1 arg max*/, &path);
+
+ 	chp = argv[optind];
+ 	if (!chp) {
+@@ -98,11 +96,7 @@
+ 	if (opts & (OPT_t|OPT_p))
+ 		chp = concat_path_file(path, chp);
+
+-	if (opts & OPT_u) {
+-		chp = mktemp(chp);
+-		if (chp[0] == '\0')
+-			goto error;
+-	} else if (opts & OPT_d) {
++	if (opts & OPT_d) {
+ 		if (mkdtemp(chp) == NULL)
+ 			goto error;
+ 	} else {

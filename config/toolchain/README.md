@@ -133,8 +133,7 @@ The base for the configuration was `defconfig`. The following changes were made:
     * "libcrypt SHA256 support" to "y"
     * "libcrypt SHA512 support" to "y"
 * "Networking Support":
-    * "DNS resolver functions" to "y". This is needed for `nslookup` in BusyBox
-      if we elect not to use its internal resolver functions.
+    * "DNS resolver functions" to "y". This is needed for `nslookup` in BusyBox.
 * "Library Installation Options":
     * "uClibc runtime library directory" to "/". We want to install directly in
       the sysroot.

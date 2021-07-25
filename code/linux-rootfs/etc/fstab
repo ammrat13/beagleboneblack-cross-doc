@@ -1,0 +1,15 @@
+# File listing all disks and mount points
+# Used by /etc/init.d/rcS to mount all the file systems
+
+# Real file systems
+/dev/mmcblk0p2  /               ext4    rw          0   1
+/dev/mmcblk0p1  /boot/u-boot    vfat    ro          0   2
+/dev/mmcblk0p3  swap            swap    defaults    0   0
+
+# Kernel file systems
+proc        /proc       proc        nosuid,noexec,nodev     0   0
+sysfs       /sys        sysfs       nosuid,noexec,nodev     0   0
+devtmpfs    /dev        devtmpfs    nosuid,noexec,mode=755  0   0
+devpts      /dev/pts    devpts      nosuid,noexec,mode=620  0   0
+tmpfs       /tmp        tmpfs       defaults                0   0
+tmpfs       /run        tmpfs       defaults                0   0

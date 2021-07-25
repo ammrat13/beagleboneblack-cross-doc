@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Script to run on system startup
+
+# Mount all the file systems
+# Ensure all the mountpoints exist
+# Also do swap
+mkdir /dev/pts
+mount -a
+
+# Set the hostname
+hostname -F /etc/hostname

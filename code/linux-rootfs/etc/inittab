@@ -1,0 +1,20 @@
+# Init configuration for BusyBox
+# See: init(8)
+# See: https://git.busybox.net/busybox/tree/examples/inittab
+
+# Script to run on system startup
+::sysinit:/etc/init.d/rcS
+
+# Run syslogd once everything's ready
+::once:/usr/sbin/syslogd -n
+
+# Place a shell on the serial line
+ttyS0::respawn:/bin/getty 115200 ttyS0
+
+# Script to run on shutdown or reboot
+::shutdown:/etc/init.d/rcK
+# For reboot, just restart init after other shutdown actions
+::restart:/bin/init
+
+# SIGINT should reboot
+::ctrlaltdel:/bin/reboot

@@ -1,4 +1,4 @@
-# BeagleBone Black Cross Libraries and Documentation
+# BeagleBone Black Cross Compiling and Documentation
 
 This repository hosts my experiements with embedded and bare-metal programming
 on the BeagleBone Black. It has some code I wrote to run on the bare-metal, as

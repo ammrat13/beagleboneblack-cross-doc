@@ -86,9 +86,9 @@ Install the modules to their desired location as
 $ make ARCH=arm CROSS_COMPILE=${TARGET}- LOADADDR=0x80000000 INSTALL_MOD_PATH=${SD_P2_MNT} modules_install
 ```
 
-Create the FIT image for the kernel using the files in `code/linux-fit` in this
+Create the FIT image for the kernel using the files in `code/linux/fit/` in this
 repository. The zImage and DTB files can be found in the kernel's source
-directory under `arch/arm/boot/` and `arch/arm/boot/dts` respectively.
+directory under `arch/arm/boot/` and `arch/arm/boot/dts/` respectively.
 
 
 ## Configuration Options
